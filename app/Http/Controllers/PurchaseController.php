@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use App\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -26,9 +29,15 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchase = Purchase::latest()->paginate(5);
-        return view('purchase.index', compact('purchase'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);;
+
+        $purchases = DB::table('purchases A')
+            ->join('purchase_details B','b.purchase_id', '=', 'a.id')
+            ->join('clients C', 'c.id', ' = ','a.client_id')
+            ->select('a.id','a.fecha_compra' ,'c.nombre', DB::raw("COUNT( b.product_id ) AS items"), 'b.subtotal')
+            ->groupBy('a.id', 'a.fecha_compra', 'c.nombre ')
+            ->orderBy('a.id', 'DESC');
+        return view('purchase.index', compact('purchases'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -38,7 +47,13 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        return view('purchase.create');
+        $purchases = new Purchase();
+        $products = Product::all()->sortBy('nombre')
+            ->pluck('nombre', 'id');
+
+        $nombreRuta = Route::currentRouteName();
+
+        return view('purchase.create', compact('purchases', 'products', 'nombreRuta'));
     }
 
     /**

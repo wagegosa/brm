@@ -1,14 +1,14 @@
-extends('layouts.app')
+@extends('layouts.app')
 
 
 @section('content')
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Gestión de Usuarios</h2>
+            <h2>Gestión de Compra</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-success" href="{{ route('users.create') }}"> Crear Nuevo Usuario</a>
+            <a class="btn btn-success" href="{{ route('users.create') }}"> Crear Nueva Compra</a>
         </div>
     </div>
 </div>
@@ -24,35 +24,15 @@ extends('layouts.app')
 <table class="table table-bordered">
     <tr>
         <th>No</th>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Roles</th>
-        <th width="280px">Action</th>
+        <th>Fecha Compra</th>
+        <th>Cliente</th>
+        <th>Articulos</th>
+        <th>Total</th>
+        <th width="280px">Acción</th>
     </tr>
-    @foreach ($data as $key => $user)
-    <tr>
-        <td>{{ ++$i }}</td>
-        <td>{{ $user->name }}</td>
-        <td>{{ $user->email }}</td>
-        <td>
-            @if(!empty($user->getRoleNames()))
-            @foreach($user->getRoleNames() as $v)
-            <label class="badge badge-success">{{ $v }}</label>
-            @endforeach
-            @endif
-        </td>
-        <td>
-            <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Mostrar</a>
-            <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Editar</a>
-            {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-            {!! Form::close() !!}
-        </td>
-    </tr>
-    @endforeach
+
+
 </table>
 
-
-{!! $data->render() !!}
 
 @endsection

@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Crear Nuevo Proveedor</h2>
+            <h2>Crear Nueva Compra</h2>
         </div>
         <div class="pull-right">
             <a class="btn btn-primary" href="{{ route('purchases.index') }}"> Atras</a>
@@ -28,21 +28,71 @@
 
 
 {!! Form::open(array('route' => 'purchases.store','method'=>'POST')) !!}
+<div class="row form-group" id="data_1">
+    {!! Form::label('fecha', 'Fecha de compra', ['class' => 'col-sm-2 col-form-label']) !!}
+    <div class="col-sm-4">
+        <div class="input-group date">
+            <span class="input-group-addon">
+            	<i class="fa fa-calendar"></i>
+            </span>
+            {!! Form::text('fecha', null, ['id' => 'fecha', 'class' => 'form-control']) !!}
+        </div>
+        @error('fecha')
+        <span class="text-danger m-b-none">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
+
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Fecha compra :</strong>
-            {!! Form::text('nombre', null, array('placeholder' => 'Nombre','class' => 'form-control')) !!}
+    <div class="col-lg-9">
+        <div id="addProduct">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="producto">Producto</label>
+                        <input id="producto" class="form-control eac-square" placeholder="Digite el nombre del producto" name="producto" type="text" value="">
+                        <input id="hdnProducto" name="hdnProducto" type="hidden" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label for="">Cantidad</label>
+                    <input id="cantidadProducto" class="form-control cantidad" disabled name="cantidadProducto" type="text" value="00">
+                </div>
+                <div class="col-md-4">
+                    <label>Precio</label>
+                    <div class="input-group m-b">
+                        <div class="input-group-prepend">
+                            <span class="input-group-addon">$</span>
+                        </div>
+                        <input id="costoProducto" class="form-control valorMonetario" disabled name="costoProducto" type="text" value="0">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label>En Existencias</label>
+                    <input id="existenciaMinima" class="form-control" readonly name="existenciaMinima" type="text" value="0">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label>Subtotal</label>
+                    <div class="input-group m-b">
+                        <div class="input-group-prepend">
+                            <span class="input-group-addon">$</span>
+                        </div>
+                        <input id="precioCompra" class="form-control valorMonetario" disabled name="precioCompra" type="text" value="0">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label>Acción</label>
+                    <br>
+                    <button type="button" id="btnAddProduct" class="btn btn-primary" disabled>
+                        <i class="fa fa-shopping-basket"></i> Agregar producto
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Client:</strong>
-            {!! Form::text('cliente', null, array('placeholder' => 'Cliente','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
 </div>
 {!! Form::close() !!}

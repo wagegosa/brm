@@ -97,11 +97,33 @@
 </div>
 {!! Form::close() !!}
 
-<script>
-    // Busqueda de productos
-    function baseUrl(url) {
-        return "{{ route('BuscarProducto') }}" + url;
-    }
-</script>
+    <!-- data picker -->
+    <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.es.min.js') }}"></script>
+    <!-- easy-autocompete -->
+    <script src="{{ asset('js/plugins/EasyAutocomplete/jquery.easy-autocomplete.js') }}"></script>
 
+    <script>
+        // Busqueda de productos
+        function baseUrl(url) {
+            return "{{ route('BuscarProducto') }}" + url;
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            let user = {{ (Auth::user()->id) }}
+
+                // date picket - formateo de fecha
+                $('#data_1 .input-group.date').datepicker({
+                    keyboardNavigation: false,
+                    language: "es",
+                    format: "yyyy-mm-dd",
+                    calendarWeeks: true,
+                    autoclose: true,
+                    todayHighlight: true
+                });
+        }
+
+    </script>
 @endsection

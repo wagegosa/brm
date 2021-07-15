@@ -26,8 +26,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $client = Client::latest()->paginate(5);
-        return view('client.index', compact('clients'))
+        $clients = Client::latest()->paginate(5);
+        return view('clients.index', compact('clients'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -38,7 +38,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('clients.create');
+       return view('clients.create');
     }
 
     /**
@@ -50,8 +50,8 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'nombre' => 'require',
-            'email' => 'require',
+            'nombre' => 'required',
+            'email' => 'required',
         ]);
 
         Client::create($request->all());
@@ -67,6 +67,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
+        $client = Client::find($id);
         return view('clients.show', compact('client'));
     }
 
@@ -78,6 +79,7 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
+        $client = Client::find($id);
         return view('clients.edit', compact('client'));
     }
 
@@ -88,16 +90,17 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $id)
+    public function update(Request $request, $id)
     {
         request()->validate([
-            'nombre' => 'require',
-            'email' => 'require',
+            'nombre' => 'required',
+            'email' => 'required',
         ]);
 
-        $id->update($request->all());
+        $client = Client::find($id);
+        $client->update($request->all());
 
-        return redirect()->route('clients.update')->with('client', 'Cliente actualizado con éxito');
+        return redirect()->route('clients.index')->with('client', 'Cliente actualizado con éxito');
     }
 
     /**

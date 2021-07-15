@@ -1,4 +1,4 @@
-extends('layouts.app')
+@extends('layouts.app')
 
 
 @section('content')
@@ -28,7 +28,7 @@ extends('layouts.app')
         <th>Email</th>
         <th width="280px">Action</th>
     </tr>
-    @foreach ($data as $key => $client)
+    @foreach ($clients as $key => $client)
     <tr>
         <td>{{ ++$i }}</td>
         <td>{{ $client->nombre }}</td>
@@ -36,7 +36,8 @@ extends('layouts.app')
         <td>
             <a class="btn btn-info" href="{{ route('clients.show',$client->id) }}">Mostrar</a>
             <a class="btn btn-primary" href="{{ route('clients.edit',$client->id) }}">Editar</a>
-            {!! Form::open(['method' => 'DELETE','route' => ['clients.destroy', $client->id],'style'=>'display:inline']) !!}
+            {!! Form::open(['method' => 'DELETE','route' => ['clients.destroy', $client->id],'style'=>'display:inline'])
+            !!}
             {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
             {!! Form::close() !!}
         </td>
@@ -45,6 +46,6 @@ extends('layouts.app')
 </table>
 
 
-{!! $data->render() !!}
+{!! $clients->render() !!}
 
 @endsection

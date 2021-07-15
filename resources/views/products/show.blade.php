@@ -17,8 +17,14 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
+                <strong>Proveedor:</strong>
+                {{ $product->proveedor->nombre }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
                 <strong>Nombre:</strong>
-                {{ $product->name }}
+                {{ $product->nombre }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -43,7 +49,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Precio:</strong>
-                {{ $product->precio }}
+                {{ '$'.$product->precio }}
             </div>
         </div>
     </div>

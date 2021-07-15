@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Proveedor;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -27,7 +28,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::latest()->paginate(5);
-        return view('product.index', compact('products'))
+        return view('products.index', compact('products'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -38,7 +39,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $proveedores = Proveedor::all('id','nombre')->pluck('nombre','id');
+        return view('products.create', compact('proveedores'));
     }
 
     /**
@@ -50,15 +52,24 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'nombre' => 'require',
-            'lote' => 'require',
+            'nombre' => 'required',
+            'lote' => 'required',
             'cantidad' => 'required',
-            'fecha_vencimiento' => 'require',
-            'precio' => 'require',
-            'proveedor_id' => 'require',
+            'fecha_vencimiento' => 'required',
+            'precio' => 'required',
+            'proveedor' => 'required',
         ]);
 
-        Product::created($request->all());
+        $data = [
+            'nombre' => ucwords(trim($request->nombre)),
+            'lote' => trim($request->lote),
+            'cantidad' => str_replace('', ',', $request->cantidad),
+            'fecha_vencimiento' => $request->fecha_vencimiento,
+            'precio' => str_replace(',', '', $request->precio),
+            'proveedor_id' => $request->proveedor
+        ];
+
+        Product::create($data);
 
         return redirect()->route('products.index')->with('success', 'Producto creado con éxito.');
     }
@@ -71,6 +82,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        $product = Product::find($id);
         return view('products.show', compact('product'));
     }
 
@@ -82,7 +94,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        return view('products.edit', compact('product'));
+        $product = Product::find($id);
+        $proveedores = Proveedor::pluck('nombre','id');
+        return view('products.edit', compact('product','proveedores'));
     }
 
     /**
@@ -92,17 +106,17 @@ class ProductController extends Controller
      * @param  int  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
         request()->validate([
-            'nombre' => 'require',
-            'lote' => 'require',
+            'nombre' => 'required',
+            'lote' => 'required',
             'cantidad' => 'required',
-            'fecha_vencimiento' => 'require',
-            'precio' => 'require',
-            'proveedor_id' => 'require',
+            'fecha_vencimiento' => 'required',
+            'precio' => 'required',
+            'proveedor' => 'required',
         ]);
-
+        $product = Product::find($id);
         $product->update($request->all());
 
         return redirect()->route('products.index')->with('success', 'Producto actualizado con éxito');

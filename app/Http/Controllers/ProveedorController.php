@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Proveedor;
 use Illuminate\Http\Request;
 
-class ProveedoController extends Controller
+class ProveedorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,8 +26,8 @@ class ProveedoController extends Controller
      */
     public function index()
     {
-        $proveedor = Proveedor::later()->paginate(5);
-        return view('proveedor.index', compact('proveedor'))->with('i', (request()->input('page', 1) - 1) * 5);
+        $proveedores = Proveedor::latest()->paginate(5);
+        return view('proveedor.index', compact('proveedores'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -49,13 +49,13 @@ class ProveedoController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'nombre' => 'require',
-            'email' => 'require',
+            'nombre' => 'required',
+            'email' => 'required',
         ]);
 
-        Proveedor::created($request->all());
+        Proveedor::create($request->all());
 
-        return redirect()->route('proveedor.index')->with('success', 'Proveedor creado con éxito.');
+        return redirect()->route('proveedors.index')->with('success', 'Proveedor creado con éxito.');
     }
 
     /**
@@ -66,6 +66,7 @@ class ProveedoController extends Controller
      */
     public function show($id)
     {
+        $proveedor = Proveedor::find($id);
         return view('proveedor.show', compact('proveedor'));
     }
 
@@ -77,6 +78,7 @@ class ProveedoController extends Controller
      */
     public function edit($id)
     {
+        $proveedor = Proveedor::find($id);
         return view('proveedor.edit', compact('proveedor'));
     }
 
@@ -87,15 +89,16 @@ class ProveedoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Proveedor $id)
+    public function update(Request $request, $id)
     {
         request()->validate([
-            'nombre' => 'require',
-            'email' => 'require',
+            'nombre' => 'required',
+            'email' => 'required',
         ]);
 
-        $id->update($request->all());
-        return redirect()->route('proveedor.index')->with('success', 'Proveedor actualizado con éxito');
+        $proveedor = Proveedor::find($id);
+        $proveedor->update($request->all());
+        return redirect()->route('proveedors.index')->with('success', 'Proveedor actualizado con éxito');
     }
 
     /**

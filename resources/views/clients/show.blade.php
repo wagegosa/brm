@@ -27,15 +27,6 @@
             {{ $client->email }}
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Roles:</strong>
-            @if(!empty($client->getRoleNames()))
-            @foreach($client->getRoleNames() as $v)
-            <label class="badge badge-success">{{ $v }}</label>
-            @endforeach
-            @endif
-        </div>
-    </div>
+
 </div>
 @endsection

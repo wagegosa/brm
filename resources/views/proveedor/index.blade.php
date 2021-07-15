@@ -1,4 +1,4 @@
-extends('layouts.app')
+@extends('layouts.app')
 
 
 @section('content')
@@ -28,7 +28,7 @@ extends('layouts.app')
         <th>Email</th>
         <th width="280px">Action</th>
     </tr>
-    @foreach ($data as $key => $proveedor)
+    @foreach ($proveedores as $key => $proveedor)
     <tr>
         <td>{{ ++$i }}</td>
         <td>{{ $proveedor->nombre }}</td>
@@ -46,6 +46,6 @@ extends('layouts.app')
 </table>
 
 
-{!! $data->render() !!}
+{!! $proveedores->render() !!}
 
 @endsection

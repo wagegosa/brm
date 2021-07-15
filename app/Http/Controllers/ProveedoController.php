@@ -12,6 +12,18 @@ class ProveedoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+         $this->middleware('permission:proveedor-list|proveedor-create|proveedor-edit|proveedor-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:proveedor-create', ['only' => ['create','store']]);
+         $this->middleware('permission:proveedor-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:proveedor-delete', ['only' => ['destroy']]);
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $proveedor = Proveedor::later()->paginate(5);

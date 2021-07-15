@@ -12,10 +12,22 @@ class PurchaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('permission:purchase-list|purchase-create|purchase-edit|purchase-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:purchase-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:purchase-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:purchase-delete', ['only' => ['destroy']]);
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $purchase = Purchase::latest()->paginate(5);
-        return view('purchase.index',compact('purchase'))
+        return view('purchase.index', compact('purchase'))
             ->with('i', (request()->input('page', 1) - 1) * 5);;
     }
 

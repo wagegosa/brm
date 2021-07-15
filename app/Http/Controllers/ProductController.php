@@ -132,4 +132,13 @@ class ProductController extends Controller
     {
         //
     }
+    public function buscar(Request $request)
+    {
+        $producto = DB::table('products')
+            ->select('id', 'nombre', 'cantidad')
+            ->where('nombre', 'LIKE', '%' . $request->search .'%')
+            ->get();
+
+        return response()->json($producto);
+    }
 }

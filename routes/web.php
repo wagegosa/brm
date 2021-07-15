@@ -28,4 +28,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('clients', 'ClientController');
     Route::resource('proveedors', 'ProveedorController');
     Route::resource('purchases', 'PurchaseController');
+    Route::get('buscarProducto', 'ProductController@buscar')->name('BuscarProducto');
 });

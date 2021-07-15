@@ -8,7 +8,7 @@
             <h2>Gestión de Compra</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-success" href="{{ route('users.create') }}"> Crear Nueva Compra</a>
+            <a class="btn btn-success" href="{{ route('purchases.create') }}"> Crear Nueva Compra</a>
         </div>
     </div>
 </div>

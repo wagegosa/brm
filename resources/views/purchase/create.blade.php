@@ -97,5 +97,11 @@
 </div>
 {!! Form::close() !!}
 
+<script>
+    // Busqueda de productos
+    function baseUrl(url) {
+        return "{{ route('BuscarProducto') }}" + url;
+    }
+</script>
 
 @endsection
